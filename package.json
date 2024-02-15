@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^2.13.0",
+    "@tauri-apps/api": "^1.5.3",
+    "csv-parse": "^5.5.3",
+    "fs": "^0.0.1-security",
+    "nuxt": "^3.10.1",
+    "vue": "^3.4.15",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.9"
+  }
+}
