@@ -2,8 +2,20 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use powershell_script::PsScriptBuilder;
+use serde::{Deserialize, Serialize};
+use serde_json;
 
-
+#[derive(Debug, Serialize, Deserialize)]
+struct App {
+  name: String,
+  installed: bool,
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct InstalledApps {
+  chrome: App,
+  teams: App,
+  office: App,
+}
 
 fn main() {
   tauri::Builder::default()
@@ -26,16 +38,22 @@ fn script() {
 }
 
 #[tauri::command]
-fn apps_installed() -> String {
-  let run_script = include_str!("Apps-Installed.ps1");
-    let ps = PsScriptBuilder::new()
-    .no_profile(true)
-    .non_interactive(true)
-    .hidden(false)
-    .print_commands(false)
-    .build();
-let output = ps.run(run_script).unwrap();
+fn apps_installed() -> InstalledApps {
+    let run_script = include_str!("Apps-Installed.ps1");
+      let ps = PsScriptBuilder::new()
+      .no_profile(true)
+      .non_interactive(true)
+      .hidden(false)
+      .print_commands(false)
+      .build();
+  let output = ps.run(run_script).unwrap().to_string();
 
-println!("{}", output);
-output.to_string()
+  let json: InstalledApps = serde_json::from_str(&output).unwrap();
+  println!("{:?}", json);
+
+  InstalledApps {
+    chrome: json.chrome,
+    teams: json.teams,
+    office: json.office,
+  }
 }

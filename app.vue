@@ -9,12 +9,15 @@ import { onMounted } from "vue";
 //     : (hello.value = (await invoke("hello_world")) as string);
 // };
 
-onMounted(async () => {});
+onMounted(async () => {
+  runScript();
+});
 
-const test = ref("");
+const test = ref({});
 
 const runScript = async () => {
-  test.value = (await invoke("apps_installed")) as string;
+  test.value = (await invoke("apps_installed")) as object;
+  console.log(test.value);
 };
 </script>
 
@@ -23,7 +26,9 @@ const runScript = async () => {
     <div class="flex justify-center mx-52 rounded-lg">
       <div class="flex flex-col mt-10 w-full rounded-lg">
         <UButton @click="runScript()">Check if apps are installed</UButton>
-        {{ test }}
+        <h1 v-for="app in test">
+          App: {{ app.name }} Installed: {{ app.installed }}
+        </h1>
       </div>
     </div>
   </div>
