@@ -1,4 +1,4 @@
-$Chrome = Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe'
+$ChromeInstalled = Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe'
 $Teams = Get-AppxPackage -Name "MSTeams"
 
 if ($ChromeInstalled -eq $false) {
