@@ -20,7 +20,6 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "nuxt": "npm:nuxt3@latest",
     "@tauri-apps/cli": "^1.5.9"
   }
 }
