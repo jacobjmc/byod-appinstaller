@@ -1,6 +1,6 @@
 <template>
   <!-- loader -->
-  <div class="loader absolute m-auto left-0 right-0 z-40"></div>
+  <div class="loader absolute mx-auto my-10 left-0 right-0 z-40"></div>
 </template>
 
 <style scoped>
