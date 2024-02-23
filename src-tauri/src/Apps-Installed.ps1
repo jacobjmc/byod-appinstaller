@@ -38,7 +38,7 @@ $applications = New-Object PSObject -Property @{
    chrome = @{ name = "Chrome"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Chrome.png" }
    teams = @{ name = "Teams"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/newteams.png" }
     office = @{ name = "Office"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Office.png" }
-    papercut = @{ name = "PaperCut Mobility Print"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Papercut.png" }
+    papercut = @{ name = "Papercut"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Papercut.png" }
     naplan = @{ name = "Naplan"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/NAPLAN_lg.png" }
 }
 

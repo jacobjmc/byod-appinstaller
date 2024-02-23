@@ -32,7 +32,7 @@ const appToInstall = async (installApp: App) => {
   const appIndex = apps.value.findIndex((app) => app.name === installApp.name);
   apps.value[appIndex].installing = true;
   await invoke(installApp.name);
-  runScript();
+  await runScript();
   apps.value[appIndex].installing = false;
 };
 
