@@ -7,7 +7,7 @@
     "distDir": "../.output/public"
   },
   "package": {
-    "productName": "tauri-nuxt",
+    "productName": "MWSC-AppInstaller",
     "version": "0.1.0"
   },
   "tauri": {
@@ -25,13 +25,7 @@
         "depends": []
       },
       "externalBin": [],
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
+      "icon": ["icons/32x32.png", "icons/icon.ico"],
       "identifier": "test.mwsc.dev",
       "longDescription": "",
       "macOS": {

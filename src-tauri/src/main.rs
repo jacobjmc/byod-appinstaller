@@ -52,8 +52,8 @@ fn Papercut() {
   let run_script = include_str!("papercut.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)
-      .non_interactive(true)
-      .hidden(true)
+      .non_interactive(false)
+      .hidden(false)
       .print_commands(false)
       .build();
     ps.run(run_script).unwrap().to_string();

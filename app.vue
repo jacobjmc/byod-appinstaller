@@ -13,6 +13,7 @@ type App = {
   name: string;
   installed: boolean;
   image: string;
+  installing?: boolean;
 };
 
 onMounted(async () => {
@@ -27,17 +28,15 @@ const runScript = async () => {
   loading.value = false;
 };
 
-const appToInstall = async (installApp: App["name"]) => {
-  InstallButtonText.value = "Installing...";
-  installing.value = true;
-  await invoke(installApp);
+const appToInstall = async (installApp: App) => {
+  const appIndex = apps.value.findIndex((app) => app.name === installApp.name);
+  apps.value[appIndex].installing = true;
+  await invoke(installApp.name);
   runScript();
-  installing.value = false;
+  apps.value[appIndex].installing = false;
 };
 
 const loading = ref(false);
-const installing = ref(false);
-const InstallButtonText = ref("Install");
 </script>
 
 <template>
@@ -86,10 +85,12 @@ const InstallButtonText = ref("Install");
               color="blue"
               :ui="{ rounded: 'rounded-none rounded-b-lg' }"
               v-if="!app.installed"
-              :loading="installing"
-              @click="appToInstall(app.name)"
+              :loading="app.installing"
+              @click="appToInstall(app)"
               class="px-10"
-              ><p class="text-white">{{ InstallButtonText }}</p></UButton
+              ><p class="text-white">
+                {{ app.installing ? "Installing..." : "Install" }}
+              </p></UButton
             >
           </div>
         </div>
