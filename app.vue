@@ -69,7 +69,7 @@ const loading = ref(false);
               <UButton
                 color="green"
                 icon="i-heroicons-check-circle"
-                class="!text-white"
+                class="!text-white cursor-default hover:!bg-green-400"
                 v-if="app.installed"
               >
                 Installed
@@ -79,7 +79,7 @@ const loading = ref(false);
                 icon="i-mdi-alert-circle-outline"
                 color="red"
                 v-if="!app.installed"
-                class="!text-white"
+                class="!text-white cursor-default hover:!bg-red-400"
               >
                 Not Installed
               </UButton>

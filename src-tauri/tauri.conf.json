@@ -55,7 +55,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "tauri-app",
+        "title": "MWSC-AppInstaller",
         "width": 1000
       }
     ]
