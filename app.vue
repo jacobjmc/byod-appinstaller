@@ -40,7 +40,7 @@ const loading = ref(false);
 </script>
 
 <template>
-  <div id="app" class="bg-green-100 h-[200vh]">
+  <div id="app" class="bg-green-100 h-[100vh]">
     <div class="flex justify-center mx-20 rounded-lg">
       <div class="flex flex-col mt-10 w-full rounded-lg">
         <UButton
