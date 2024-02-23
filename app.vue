@@ -44,11 +44,12 @@ const loading = ref(false);
     <div class="flex justify-center mx-20 rounded-lg">
       <div class="flex flex-col mt-10 w-full rounded-lg">
         <UButton
-          class="h-12 shadow-md"
-          color="black"
+          icon="i-mdi-application-import"
+          color="blue"
+          class="h-12 w-fit px-10 self-center shadow-md !text-white"
           :loading="loading"
           @click="runScript()"
-          ><p>Check if apps are installed</p></UButton
+          >Check if apps are installed</UButton
         >
 
         <div
@@ -57,7 +58,7 @@ const loading = ref(false);
         >
           <div v-for="app in apps">
             <div
-              class="bg-white shadow-md rounded-lg md:-mb-2 h-[200px] max-w-xs justify-center flex flex-wrap pb-4"
+              class="bg-white shadow-md rounded-lg mt-2 md:-mb-2 h-[200px] max-w-xs justify-center flex flex-wrap pb-4"
             >
               <img class="h-[60px] mt-4" :src="app.image" alt="" />
               <p
@@ -65,33 +66,40 @@ const loading = ref(false);
               >
                 {{ app.name }}
               </p>
-              <p
+              <UButton
+                color="green"
+                icon="i-heroicons-check-circle"
+                class="!text-white"
                 v-if="app.installed"
-                class="w-full mx-5 pt-1 text-center font-semibold bg-green-500 rounded-lg text-white"
               >
                 Installed
-              </p>
+              </UButton>
 
-              <p
+              <UButton
+                icon="i-mdi-alert-circle-outline"
+                color="red"
                 v-if="!app.installed"
-                class="w-full mx-5 pt-1 text-center font-semibold bg-red-500 rounded-lg text-white"
+                class="!text-white"
               >
                 Not Installed
-              </p>
+              </UButton>
             </div>
 
             <UButton
               block
               color="blue"
-              :ui="{ rounded: 'rounded-none rounded-b-lg' }"
+              :ui="{
+                rounded: 'rounded-none rounded-b-lg',
+                icon: { loading: 'animate-none' },
+              }"
               v-if="!app.installed"
               :loading="app.installing"
+              loading-icon="i-eos-icons-installing"
               @click="appToInstall(app)"
-              class="px-10"
-              ><p class="text-white">
-                {{ app.installing ? "Installing..." : "Install" }}
-              </p></UButton
+              class="px-10 !text-white"
             >
+              {{ app.installing ? "Installing..." : "Install" }}
+            </UButton>
           </div>
         </div>
       </div>

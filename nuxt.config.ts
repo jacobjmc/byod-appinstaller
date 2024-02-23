@@ -39,4 +39,7 @@ export default defineNuxtConfig({
   tailwindcss: {
     exposeConfig: true,
   },
+  ui: {
+    icons: ["clarity", "mdi", "eos-icons"],
+  },
 });

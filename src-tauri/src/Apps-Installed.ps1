@@ -4,7 +4,11 @@ try {
     $ChromeInstalled = $false
 }
 
-$TeamsInstalled = Get-AppxPackage -Name "MSTeams"
+try {
+    $TeamsInstalled = Get-AppxPackage -Name "MSTeams"
+} catch { 
+    $TeamsInstalled = $false
+}
 
  try {
     $OfficeInstalled = Test-Path "HKLM:\SOFTWARE\Microsoft\Office\ClickToRun\Configuration"
