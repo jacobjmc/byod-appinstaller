@@ -7,7 +7,7 @@
     "distDir": "../.output/public"
   },
   "package": {
-    "productName": "MWSC-AppInstaller",
+    "productName": "MWSC App Installer",
     "version": "0.1.0"
   },
   "tauri": {
@@ -55,7 +55,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "MWSC-AppInstaller",
+        "title": "MWSC App Installer",
         "width": 1000
       }
     ]

@@ -28,9 +28,18 @@ struct InstalledApps {
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![Chrome, Teams, Papercut, Naplan, apps_installed])
+    .invoke_handler(tauri::generate_handler![install_all, Chrome, Teams, Office, Papercut, Naplan, apps_installed])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
+}
+
+#[tauri::command]
+fn install_all() {
+  Office();
+  Chrome();
+  Teams();
+  Naplan();
+  Papercut();
 }
 
 #[allow(non_snake_case)]
@@ -53,6 +62,19 @@ fn Teams() {
       let ps = PsScriptBuilder::new()
       .no_profile(true)
       .non_interactive(true)
+      .hidden(true)
+      .print_commands(false)
+      .build();
+    ps.run(run_script).unwrap().to_string();
+}
+
+#[allow(non_snake_case)]
+#[tauri::command]
+fn Office() {
+  let run_script = include_str!("office.ps1");
+      let ps = PsScriptBuilder::new()
+      .no_profile(true)
+      .non_interactive(false)
       .hidden(true)
       .print_commands(false)
       .build();

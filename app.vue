@@ -28,33 +28,57 @@ const runScript = async () => {
   loading.value = false;
 };
 
-const appToInstall = async (installApp: App) => {
-  const appIndex = apps.value.findIndex((app) => app.name === installApp.name);
-  apps.value[appIndex].installing = true;
-  await invoke(installApp.name);
-  await runScript();
-  apps.value[appIndex].installing = false;
+const installAll = async () => {
+  installingAll.value = true;
+  apps.value = await invoke("install_all");
+  installingAll.value = false;
+};
+
+const appToInstall = async (installApp: App | any = "app") => {
+  if (installApp === "app") {
+    installAll();
+  } else {
+    const appIndex = apps.value.findIndex(
+      (app) => app.name === installApp.name
+    );
+    apps.value[appIndex].installing = true;
+    await invoke(installApp.name);
+    await runScript();
+    apps.value[appIndex].installing = false;
+  }
 };
 
 const loading = ref(false);
+const installingAll = ref(false);
 </script>
 
 <template>
   <div id="app" class="bg-green-100 h-[100vh]">
     <div class="flex justify-center mx-20 rounded-lg">
       <div class="flex flex-col mt-10 w-full rounded-lg">
-        <UButton
-          icon="i-mdi-application-import"
-          color="blue"
-          class="h-12 w-fit px-10 self-center shadow-md !text-white"
-          :loading="loading"
-          @click="runScript()"
-          >Check if apps are installed</UButton
-        >
+        <div class="flex">
+          <UButton
+            icon="i-mdi-application-import"
+            color="blue"
+            class="h-12 w-fit mr-auto px-10 shadow-md !text-white"
+            :loading="loading"
+            @click="runScript()"
+            >Check if apps are installed</UButton
+          >
+          <UButton
+            icon="i-heroicons-arrow-down-on-square-stack"
+            color="emerald"
+            class="h-12 w-fit px-10 ml-auto shadow-md !text-white"
+            :loading="installingAll"
+            loading-icon="i-eos-icons-installing"
+            @click="installAll()"
+            >{{ installingAll ? "Installing..." : "Install all apps" }}</UButton
+          >
+        </div>
 
         <div
           v-if="apps"
-          class="grid grid-cols-1 md:grid-cols-4 md:gap-x-6 mt-8"
+          class="grid grid-cols-1 md:grid-cols-4 md:gap-x-6 mt-4"
         >
           <div v-for="app in apps">
             <div
