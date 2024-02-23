@@ -17,12 +17,12 @@ type App = {
 };
 
 onMounted(async () => {
-  runScript();
+  getInstalledApps();
 });
 
 const apps = ref<App[]>([]);
 
-const runScript = async () => {
+const getInstalledApps = async () => {
   loading.value = true;
   apps.value = await invoke("apps_installed");
   loading.value = false;
@@ -31,6 +31,7 @@ const runScript = async () => {
 const installAll = async () => {
   installingAll.value = true;
   apps.value = await invoke("install_all");
+  await getInstalledApps();
   installingAll.value = false;
 };
 
@@ -43,7 +44,7 @@ const appToInstall = async (installApp: App | any = "app") => {
     );
     apps.value[appIndex].installing = true;
     await invoke(installApp.name);
-    await runScript();
+    await getInstalledApps();
     apps.value[appIndex].installing = false;
   }
 };
@@ -62,7 +63,7 @@ const installingAll = ref(false);
             color="blue"
             class="h-12 w-fit mr-auto px-10 shadow-md !text-white"
             :loading="loading"
-            @click="runScript()"
+            @click="getInstalledApps()"
             >Check if apps are installed</UButton
           >
           <UButton

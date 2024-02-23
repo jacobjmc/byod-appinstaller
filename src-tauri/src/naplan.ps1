@@ -12,7 +12,7 @@ try {
 }
 
 <# DOWNLOAD AND INSTALL NAPLAN #>
-if (!$NaplanInstalled) {
+if !($NaplanInstalled) {
     Start-BitsTransfer "https://pages.assessform.edu.au/uploads/files/Release/NAP%20Locked%20down%20browser%20-%20Release%20-%205.6.15.msi"  -destination "$env:USERPROFILE\Downloads\naplan_installer.msi"
     Get-BitsTransfer
 
