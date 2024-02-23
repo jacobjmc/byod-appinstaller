@@ -28,12 +28,16 @@ const runScript = async () => {
 };
 
 const appToInstall = async (installApp: App["name"]) => {
-  loading.value = true;
+  InstallButtonText.value = "Installing...";
+  installing.value = true;
   await invoke(installApp);
   runScript();
+  installing.value = false;
 };
 
 const loading = ref(false);
+const installing = ref(false);
+const InstallButtonText = ref("Install");
 </script>
 
 <template>
@@ -48,36 +52,45 @@ const loading = ref(false);
           ><p>Check if apps are installed</p></UButton
         >
 
-        <div v-if="apps" class="grid grid-cols-1 md:grid-cols-3 md:gap-2">
-          <div
-            v-for="app in apps"
-            class="bg-white shadow-md rounded-lg my-4 md:my-4 h-auto p-4 max-w-xs justify-center flex flex-wrap"
-          >
-            <img class="h-[100px] my-2" :src="app.image" alt="" />
-            <p
-              class="basis-full text-center text-2xl font-semibold text-gray-800"
+        <div
+          v-if="apps"
+          class="grid grid-cols-1 md:grid-cols-4 md:gap-x-6 mt-8"
+        >
+          <div v-for="app in apps">
+            <div
+              class="bg-white shadow-md rounded-lg md:-mb-2 h-[200px] max-w-xs justify-center flex flex-wrap pb-4"
             >
-              {{ app.name }}
-            </p>
-            <p
-              v-if="app.installed"
-              class="basis-full text-center text-2xl font-semibold bg-green-500 rounded-lg text-white mt-6 py-2"
-            >
-              Installed
-            </p>
-            <div v-else class="flex flex-col items-center space-y-2">
+              <img class="h-[60px] mt-4" :src="app.image" alt="" />
               <p
-                class="basis-full text-center text-2xl font-semibold bg-red-500 rounded-lg text-white mt-6 py-2 px-14"
+                class="basis-full text-center font-semibold text-gray-800 py-5"
+              >
+                {{ app.name }}
+              </p>
+              <p
+                v-if="app.installed"
+                class="w-full mx-5 pt-1 text-center font-semibold bg-green-500 rounded-lg text-white"
+              >
+                Installed
+              </p>
+
+              <p
+                v-if="!app.installed"
+                class="w-full mx-5 pt-1 text-center font-semibold bg-red-500 rounded-lg text-white"
               >
                 Not Installed
               </p>
-              <UButton
-                :loading="loading"
-                @click="appToInstall(app.name)"
-                class="px-10"
-                >Install</UButton
-              >
             </div>
+
+            <UButton
+              block
+              color="blue"
+              :ui="{ rounded: 'rounded-none rounded-b-lg' }"
+              v-if="!app.installed"
+              :loading="installing"
+              @click="appToInstall(app.name)"
+              class="px-10"
+              ><p class="text-white">{{ InstallButtonText }}</p></UButton
+            >
           </div>
         </div>
       </div>
