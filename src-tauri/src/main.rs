@@ -36,28 +36,51 @@ fn main() {
 
 #[tauri::command]
 fn install_all() {
-    // Spawn threads for each function and discard the JoinHandle to detach them
-    let _ = thread::spawn(|| {
-      Office();
-  });
+  // let apps: Vec<App> = vec![json.chrome, json.teams, json.office, json.papercut, json.naplan];
+  let installed_apps = apps_installed();
+  let chrome_app = &installed_apps[0];
+  let teams_app = &installed_apps[1];
+  let office_app = &installed_apps[2];
+  let papercut_app = &installed_apps[3];
+  let naplan_app = &installed_apps[4];
 
-  let _ = thread::spawn(|| {
-      Chrome();
-  });
+  let mut handles = vec![];
 
-  let _ = thread::spawn(|| {
-      Teams();
-  });
+  // Spawn threads for each function and keep track of their handles
+  if !office_app.installed {
+      handles.push(thread::spawn(|| {
+          Office();
+      }));
+  }
 
-  let _ = thread::spawn(|| {
-      Naplan();
-  });
+  if !chrome_app.installed {
+      handles.push(thread::spawn(|| {
+          Chrome();
+      }));
+  }
 
-  let _ = thread::spawn(|| {
-      Papercut();
-  });
-  
-  // Main function exits here without waiting for the threads
+  if !teams_app.installed {
+      handles.push(thread::spawn(|| {
+          Teams();
+      }));
+  }
+
+  if !naplan_app.installed {
+      handles.push(thread::spawn(|| {
+          Naplan();
+      }));
+  }
+
+  if !papercut_app.installed {
+      handles.push(thread::spawn(|| {
+          Papercut();
+      }));
+  }
+
+  // Wait for all threads to finish
+  for handle in handles {
+      handle.join().unwrap();
+  }
 }
 
 #[allow(non_snake_case)]
@@ -88,7 +111,7 @@ fn Teams() {
 
 #[allow(non_snake_case)]
 #[tauri::command]
-fn Office() {
+fn Office() { 
   let run_script = include_str!("office.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)
@@ -96,7 +119,7 @@ fn Office() {
       .hidden(true)
       .print_commands(false)
       .build();
-    ps.run(run_script).unwrap().to_string();
+      ps.run(run_script).unwrap().to_string();
 }
 
 #[allow(non_snake_case)]
@@ -109,7 +132,7 @@ fn Papercut() {
       .hidden(true)
       .print_commands(false)
       .build();
-    ps.run(run_script).unwrap().to_string();
+    ps.run(run_script).unwrap().to_string(); 
 }
 
 #[allow(non_snake_case)]
@@ -138,7 +161,6 @@ fn apps_installed() -> Vec<App> {
 
   let json: InstalledApps = serde_json::from_str(&output).unwrap();
   println!("{:?}", json);
-
   let apps: Vec<App> = vec![json.chrome, json.teams, json.office, json.papercut, json.naplan];
   apps
 }
