@@ -9,6 +9,7 @@
 use powershell_script::PsScriptBuilder;
 use serde::{Deserialize, Serialize};
 use serde_json;
+use std::thread;
 
 #[derive(Debug, Serialize, Deserialize)]
 
@@ -35,11 +36,28 @@ fn main() {
 
 #[tauri::command]
 fn install_all() {
-  Office();
-  Chrome();
-  Teams();
-  Naplan();
-  Papercut();
+    // Spawn threads for each function and discard the JoinHandle to detach them
+    let _ = thread::spawn(|| {
+      Office();
+  });
+
+  let _ = thread::spawn(|| {
+      Chrome();
+  });
+
+  let _ = thread::spawn(|| {
+      Teams();
+  });
+
+  let _ = thread::spawn(|| {
+      Naplan();
+  });
+
+  let _ = thread::spawn(|| {
+      Papercut();
+  });
+  
+  // Main function exits here without waiting for the threads
 }
 
 #[allow(non_snake_case)]

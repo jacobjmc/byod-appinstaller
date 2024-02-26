@@ -18,6 +18,8 @@ type App = {
 
 onMounted(async () => {
   getInstalledApps();
+  // Run the function every 10 seconds
+  setInterval(getInstalledApps, 10000); // 10000 milliseconds = 10 seconds
 });
 
 const apps = ref<App[]>([]);
@@ -54,10 +56,10 @@ const installingAll = ref(false);
 </script>
 
 <template>
-  <div id="app" class="bg-green-100 h-[100vh]">
+  <div id="app" class="bg-green-100 h-full md:h-[100vh]">
     <div class="flex justify-center mx-20 rounded-lg">
-      <div class="flex flex-col mt-10 w-full rounded-lg">
-        <div class="flex">
+      <div class="flex flex-col mt-4 w-full rounded-lg">
+        <div class="flex flex-col md:flex-row">
           <UButton
             icon="i-mdi-application-import"
             color="blue"
@@ -79,13 +81,13 @@ const installingAll = ref(false);
 
         <div
           v-if="apps"
-          class="grid grid-cols-1 md:grid-cols-4 md:gap-x-6 mt-4"
+          class="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 space-y-6 place-items-center md:place-items-baseline justify-content-center"
         >
           <div v-for="app in apps">
             <div
-              class="bg-white shadow-md rounded-lg mt-2 md:-mb-2 h-[200px] max-w-xs justify-center flex flex-wrap pb-4"
+              class="bg-white shadow-md rounded-lg md:-mb-2 h-[200px] max-w-[217px] justify-center flex flex-wrap pb-4"
             >
-              <img class="h-[60px] mt-4" :src="app.image" alt="" />
+              <img class="max-h-[60px] mt-4" :src="app.image" alt="" />
               <p
                 class="basis-full text-center font-semibold text-gray-800 py-5"
               >
