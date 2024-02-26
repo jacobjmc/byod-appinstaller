@@ -53,7 +53,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 550,
+        "height": 580,
         "resizable": false,
         "title": "MWSC App Installer",
         "width": 1000,
