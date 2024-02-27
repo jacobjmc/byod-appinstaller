@@ -9,8 +9,6 @@
 use powershell_script::PsScriptBuilder;
 use serde::{Deserialize, Serialize};
 use serde_json;
-use std::thread;
-
 #[derive(Debug, Serialize, Deserialize)]
 
 struct App {
@@ -27,6 +25,8 @@ struct InstalledApps {
   naplan: App,
 }
 
+
+
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![install_all, Chrome, Teams, Office, Papercut, Naplan, apps_installed])
@@ -34,8 +34,9 @@ fn main() {
     .expect("error while running tauri application");
 }
 
+#[allow(unused_must_use)]
 #[tauri::command]
-fn install_all() {
+async fn install_all() {
   // let apps: Vec<App> = vec![json.chrome, json.teams, json.office, json.papercut, json.naplan];
   let installed_apps = apps_installed();
   let chrome_app = &installed_apps[0];
@@ -44,48 +45,32 @@ fn install_all() {
   let papercut_app = &installed_apps[3];
   let naplan_app = &installed_apps[4];
 
-  let mut handles = vec![];
-
   // Spawn threads for each function and keep track of their handles
-  if !office_app.installed {
-      handles.push(thread::spawn(|| {
-          Office();
-      }));
+  if !office_app.installed {     
+          Office().await;
   }
 
   if !chrome_app.installed {
-      handles.push(thread::spawn(|| {
-          Chrome();
-      }));
+          Chrome().await;
   }
 
   if !teams_app.installed {
-      handles.push(thread::spawn(|| {
-          Teams();
-      }));
+          Teams().await;
   }
 
   if !naplan_app.installed {
-      handles.push(thread::spawn(|| {
-          Naplan();
-      }));
+          Naplan().await;
   }
 
   if !papercut_app.installed {
-      handles.push(thread::spawn(|| {
-          Papercut();
-      }));
+          Papercut().await;
   }
 
-  // Wait for all threads to finish
-  for handle in handles {
-      handle.join().unwrap();
-  }
 }
 
 #[allow(non_snake_case)]
 #[tauri::command]
-fn Chrome() {
+async fn Chrome() {
   let run_script = include_str!("chrome.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)
@@ -98,7 +83,7 @@ fn Chrome() {
 
 #[allow(non_snake_case)]
 #[tauri::command]
-fn Teams() {
+async fn Teams() {
   let run_script = include_str!("teams.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)
@@ -111,7 +96,7 @@ fn Teams() {
 
 #[allow(non_snake_case)]
 #[tauri::command]
-fn Office() { 
+async fn Office() { 
   let run_script = include_str!("office.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)
@@ -124,7 +109,7 @@ fn Office() {
 
 #[allow(non_snake_case)]
 #[tauri::command]
-fn Papercut() {
+async fn Papercut() {
   let run_script = include_str!("papercut.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)
@@ -137,7 +122,7 @@ fn Papercut() {
 
 #[allow(non_snake_case)]
 #[tauri::command]
-fn Naplan() {
+async fn Naplan() {
   let run_script = include_str!("naplan.ps1");
       let ps = PsScriptBuilder::new()
       .no_profile(true)

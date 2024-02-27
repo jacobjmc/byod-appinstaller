@@ -19,7 +19,7 @@ type App = {
 onMounted(async () => {
   await getInstalledApps();
   // Run the function every 10 seconds
-  setInterval(getInstalledApps, 30000); // 10000 milliseconds = 10 seconds
+  //setInterval(getInstalledApps, 30000); // 10000 milliseconds = 10 seconds
 });
 
 const apps = ref<App[]>([]);
@@ -46,6 +46,7 @@ const appToInstall = async (installApp: App | any = "app") => {
     );
     apps.value[appIndex].installing = true;
     await invoke(installApp.name);
+    await getInstalledApps();
     apps.value[appIndex].installing = false;
   }
 };
