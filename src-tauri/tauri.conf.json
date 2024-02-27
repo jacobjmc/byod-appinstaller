@@ -39,8 +39,8 @@
       "shortDescription": "",
       "targets": "all",
       "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
+        "certificateThumbprint": "",
+        "digestAlgorithm": "sha384",
         "timestampUrl": ""
       }
     },
