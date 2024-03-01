@@ -1,5 +1,5 @@
-Start-BitsTransfer "https://go.microsoft.com/fwlink/?linkid=2196106&clcid=0xc09&culture=en-au&country=au" -destination "$env:USERPROFILE\Downloads\MSTeams-x64.msix"
+Start-BitsTransfer "https://go.microsoft.com/fwlink/?linkid=2196106&clcid=0xc09&culture=en-au&country=au" -destination "$env:TEMP\MSTeams-x64.msix"
 Get-BitsTransfer
-Add-AppxPackage -Path "$env:USERPROFILE\Downloads\MSTeams-x64.msix"
+Add-AppxPackage -Path "$env:TEMP\MSTeams-x64.msix"
 
 

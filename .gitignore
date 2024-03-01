@@ -24,3 +24,4 @@ logs
 !.env.example
 ST_8105_ACTIVE.csv
 studentsEdupass.json
+tauri.conf.json

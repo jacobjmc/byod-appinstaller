@@ -39,9 +39,9 @@
       "shortDescription": "",
       "targets": "all",
       "windows": {
-        "certificateThumbprint": "",
+        "certificateThumbprint": "6feb06208595e9010c371494456a7a1ca0e5966f",
         "digestAlgorithm": "sha384",
-        "timestampUrl": ""
+        "timestampUrl": "http://timestamp.sectigo.com"
       }
     },
     "security": {
