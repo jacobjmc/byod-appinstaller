@@ -25,3 +25,4 @@ logs
 ST_8105_ACTIVE.csv
 studentsEdupass.json
 tauri.conf.json
+src-tauri/tauri.conf.json
