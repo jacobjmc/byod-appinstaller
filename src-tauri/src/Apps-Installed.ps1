@@ -1,18 +1,25 @@
+param (
+    [string]$App
+)
+
 try {
     $ChromeInstalled = Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe'
-} catch {
+}
+catch {
     $ChromeInstalled = $false
 }
 
 try {
     $TeamsInstalled = Get-AppxPackage -Name "MSTeams"
-} catch { 
+}
+catch { 
     $TeamsInstalled = $false
 }
 
- try {
+try {
     $OfficeInstalled = Test-Path "HKLM:\SOFTWARE\Microsoft\Office\ClickToRun\Configuration"
-} catch {
+}
+catch {
     $OfficeInstalled = $false
 }
 
@@ -25,46 +32,59 @@ $registryPath = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uni
 try {
     # Check if the product code exists in the registry
     $NaplanInstalled = Get-ItemProperty -Path $registryPath | Where-Object { $_.PSChildName -eq $NaplanProductCode }
-} catch {
+}
+catch {
     $NaplanInstalled = $false
 }
 
 # Check if the printer is installed
 try {
     $PapercutInstalled = Get-Printer | Where-Object { $_.Name -eq "Toshiba_FollowMe [Follow Me Queue (Login to any photocopier to release your print job)](Mobility)" }
-} catch {
+}
+catch {
     $PapercutInstalled = $false
 }
 
 
 $applications = New-Object PSObject -Property @{
     
-   chrome = @{ name = "Chrome"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Chrome.png" }
-   teams = @{ name = "Teams"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/newteams.png" }
-    office = @{ name = "Office"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Office.png" }
+    chrome   = @{ name = "Chrome"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Chrome.png" }
+    teams    = @{ name = "Teams"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/newteams.png" }
+    office   = @{ name = "Office"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Office.png" }
     papercut = @{ name = "Papercut"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/Papercut.png" }
-    naplan = @{ name = "Naplan"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/NAPLAN_lg.png" }
+    naplan   = @{ name = "Naplan"; installed = $false; image = "https://byod.mwsc.vic.edu.au/storage/applications/imgs/NAPLAN_lg.png" }
 }
 
-if ($ChromeInstalled) {
-    $applications.chrome.installed = $true
+switch ($App) {
+    "chrome" {
+        if ($ChromeInstalled) { $applications.chrome.installed = $true }
+    }
+    "teams" {
+        if ($TeamsInstalled) { $applications.teams.installed = $true } 
+    }
+    "office" {
+        if ($OfficeInstalled) { $applications.office.installed = $true } 
+    }
+    "papercut" {
+        if ($PapercutInstalled) { $applications.papercut.installed = $true } 
+    }
+    "naplan" {
+        if ($NaplanInstalled) { $applications.naplan.installed = $true }
+    }
+    Default {
+        if ($ChromeInstalled) { $applications.chrome.installed = $true }
+        
+        if ($TeamsInstalled) { $applications.teams.installed = $true } 
+        
+        if ($OfficeInstalled) { $applications.office.installed = $true } 
+        
+        if ($PapercutInstalled) { $applications.papercut.installed = $true } 
+        
+        if ($NaplanInstalled) { $applications.naplan.installed = $true }
+    }
 }
 
-if ($TeamsInstalled) {
-    $applications.teams.installed = $true
-} 
 
-if ($OfficeInstalled) {
-    $applications.office.installed = $true
-} 
-
-if ($PapercutInstalled) {
-    $applications.papercut.installed = $true
-} 
-
-if ($NaplanInstalled) {
-    $applications.naplan.installed = $true
-}
 
 $applications | ConvertTo-Json
 

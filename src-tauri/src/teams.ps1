@@ -3,3 +3,11 @@ Get-BitsTransfer
 Add-AppxPackage -Path "$env:TEMP\MSTeams-x64.msix"
 
 
+try {
+    $TeamsInstalled = Get-AppxPackage -Name "MSTeams"
+}
+catch { 
+    $TeamsInstalled = $false
+}
+
+if ($TeamsInstalled) { $True | Out-String }

@@ -45,8 +45,11 @@ const appToInstall = async (installApp: App | any = "app") => {
       (app) => app.name === installApp.name
     );
     apps.value[appIndex].installing = true;
-    await invoke(installApp.name);
-    await getInstalledApps();
+    const nap = await invoke(installApp.name);
+    console.log(nap);
+    if (nap) {
+      apps.value[appIndex].installed = true;
+    }
     apps.value[appIndex].installing = false;
   }
 };

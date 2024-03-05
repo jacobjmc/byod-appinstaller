@@ -10,4 +10,13 @@ Start-BitsTransfer "https://byod.mwsc.vic.edu.au/applications/22/download" -Dest
 Get-BitsTransfer
 Start-Process -FilePath "$env:TEMP\OfficeSetup.exe"
 
+try {
+    $OfficeInstalled = Test-Path "HKLM:\SOFTWARE\Microsoft\Office\ClickToRun\Configuration"
+}
+catch {
+    $OfficeInstalled = $false
+}
+
+if ($OfficeInstalled) { $True | Out-String }
+
 
