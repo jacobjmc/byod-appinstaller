@@ -59,9 +59,9 @@ async fn install_all() {
           Teams().await;
   }
 
-  if !installed_apps[4].installed {
-          Naplan().await;
-  }
+  // if !installed_apps[4].installed {
+  //         Naplan().await;
+  // }
 
   if !installed_apps[3].installed {
           Papercut().await;
@@ -178,7 +178,7 @@ fn apps_installed() -> Vec<App> {
 
   let json: InstalledApps = serde_json::from_str(&output).unwrap();
   println!("{:?}", json);
-  let apps: Vec<App> = vec![json.chrome, json.teams, json.office, json.papercut, json.naplan];
+  let apps: Vec<App> = vec![json.chrome, json.teams, json.office, json.papercut];
   apps
 }
 

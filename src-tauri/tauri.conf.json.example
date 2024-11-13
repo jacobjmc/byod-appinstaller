@@ -1,0 +1,64 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "npm run generate",
+    "beforeDevCommand": "npm run dev",
+    "devPath": "http://localhost:3000",
+    "distDir": "../.output/public"
+  },
+  "package": {
+    "productName": "MWSC App Installer",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true,
+      "fs": {
+        "scope": ["$RESOURCE/*"]
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": ["icons/32x32.png", "icons/icon.ico"],
+      "identifier": "test.mwsc.dev",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": "",
+        "digestAlgorithm": "sha384",
+        "timestampUrl": "http://timestamp.digicert.com"
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 580,
+        "resizable": false,
+        "title": "MWSC App Installer",
+        "width": 1000,
+        "center": true
+      }
+    ]
+  }
+}
